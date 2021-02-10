@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\ProductRepository; // Avoid class naming error.
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ApiResource
  */
 class Product
 {
