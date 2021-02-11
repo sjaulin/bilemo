@@ -15,23 +15,25 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($c = 0; $c < 5; $c++) {
             $client = new Client;
             $client->setName($faker->unique()->firstName() . ' MobileShop');
             $manager->persist($client);
 
-            $user = new User;
-            $user->setClient($client);
-            $user->setEmail($faker->email())
-                ->setPhone($faker->unique()->phoneNumber())
-                ->setFullname($faker->unique()->firstName() . ' ' . $faker->unique()->lastName())
-                ->setAddress($faker->address())
-                ->setZipcode(rand(10000, 95000))
-                ->setCity($faker->city());
-            $manager->persist($user);
+            for ($u = 0; $u < 40; $u++) {
+                $user = new User;
+                $user->setClient($client);
+                $user->setEmail($faker->email())
+                    ->setPhone($faker->unique()->phoneNumber())
+                    ->setFullname($faker->unique()->firstName() . ' ' . $faker->unique()->lastName())
+                    ->setAddress($faker->address())
+                    ->setZipcode(rand(10000, 95000))
+                    ->setCity($faker->city());
+                $manager->persist($user);
+            }
         }
 
-        for ($i = 0; $i < 30; $i++) {
+        for ($p = 0; $p < 100; $p++) {
             $product = new Product;
             $product->setBrand($faker->randomElement(['Apple', 'Samsung', 'Huawei', 'Xiaomi', 'LG', 'Google']))
                 ->setModel($faker->unique()->word() . ' ' . rand(1, 10))
