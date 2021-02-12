@@ -2,11 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ApiResource(
+ *   normalizationContext={
+ *     "groups"={"users_read"}
+ *   }
+ * )
  */
 class User
 {
@@ -14,47 +21,56 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"users_read", "clients_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users_read", "clients_read"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users_read", "clients_read"})
      */
     private $fullname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users_read", "clients_read"})
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", length=255)
+     * @Groups({"users_read", "clients_read"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users_read", "clients_read"})
      */
     private $zipcode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users_read", "clients_read"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"users_read", "clients_read"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"users_read"})
      */
     private $client;
 
