@@ -6,9 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *     fields={"email", "client"},
+ *     errorPath="email",
+ *     message="This user email is already in use on that client."
+ * )
  * @ApiResource(
  *   normalizationContext={
  *     "groups"={"users_read"}
@@ -27,42 +34,52 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="email must not be null")
+     * @Assert\Email(
+     *     message = "email '{{ value }}' is not a valid email."
+     * )
      * @Groups({"users_read", "clients_read"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="fullname must not be null")
      * @Groups({"users_read", "clients_read"})
      */
     private $fullname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="phone must not be null")
      * @Groups({"users_read", "clients_read"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="text", length=255)
+     * @Assert\NotBlank(message="address must not be null")
      * @Groups({"users_read", "clients_read"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="zipcode must not be null")
      * @Groups({"users_read", "clients_read"})
      */
     private $zipcode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="city must not be null")
      * @Groups({"users_read", "clients_read"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="createdAt must not be null")
      * @Groups({"users_read", "clients_read"})
      */
     private $createdAt;
@@ -70,6 +87,7 @@ class User
     /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="client must not be null")
      * @Groups({"users_read"})
      */
     private $client;
