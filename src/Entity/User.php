@@ -2,99 +2,53 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(
- *     fields={"email", "client"},
- *     errorPath="email",
- *     message="This user email is already in use on that client."
- * )
- * @ApiResource(
- *   normalizationContext={
- *     "groups"={"users_read"}
- *   }
- * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"users_read", "clients_read"})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="email must not be null")
-     * @Assert\Email(
-     *     message = "email '{{ value }}' is not a valid email."
-     * )
-     * @Groups({"users_read", "clients_read"})
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="fullname must not be null")
-     * @Groups({"users_read", "clients_read"})
+     * @ORM\Column(type="json")
      */
-    private $fullname;
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="user")
+     */
+    private $customers;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="phone must not be null")
-     * @Groups({"users_read", "clients_read"})
      */
-    private $phone;
-
-    /**
-     * @ORM\Column(type="text", length=255)
-     * @Assert\NotBlank(message="address must not be null")
-     * @Groups({"users_read", "clients_read"})
-     */
-    private $address;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="zipcode must not be null")
-     * @Groups({"users_read", "clients_read"})
-     */
-    private $zipcode;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="city must not be null")
-     * @Groups({"users_read", "clients_read"})
-     */
-    private $city;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @Assert\NotBlank(message="createdAt must not be null")
-     * @Groups({"users_read", "clients_read"})
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank(message="client must not be null")
-     * @Groups({"users_read"})
-     */
-    private $client;
+    private $name;
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->customers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -114,86 +68,105 @@ class User
         return $this;
     }
 
-    public function getFullname(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
     {
-        return $this->fullname;
+        return (string) $this->email;
     }
 
-    public function setFullname(string $fullname): self
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        $this->fullname = $fullname;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }
 
-    public function getPhone(): ?string
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
     {
-        return $this->phone;
+        return (string) $this->password;
     }
 
-    public function setPhone(string $phone): self
+    public function setPassword(string $password): self
     {
-        $this->phone = $phone;
+        $this->password = $password;
 
         return $this;
     }
 
-    public function getAddress(): ?string
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
     {
-        return $this->address;
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-    public function setAddress(string $address): self
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
     {
-        $this->address = $address;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Customer[]
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customer $customer): self
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
+            $customer->setUser($this);
+        }
 
         return $this;
     }
 
-    public function getZipcode(): ?string
+    public function removeCustomer(Customer $customer): self
     {
-        return $this->zipcode;
-    }
-
-    public function setZipcode(string $zipcode): self
-    {
-        $this->zipcode = $zipcode;
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getUser() === $this) {
+                $customer->setUser(null);
+            }
+        }
 
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getName(): ?string
     {
-        return $this->city;
+        return $this->name;
     }
 
-    public function setCity(string $city): self
+    public function setName(string $name): self
     {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
+        $this->name = $name;
 
         return $this;
     }

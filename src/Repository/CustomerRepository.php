@@ -39,8 +39,8 @@ class CustomerRepository extends ServiceEntityRepository
     /*
     public function findOneBySomeField($value): ?Customer
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
