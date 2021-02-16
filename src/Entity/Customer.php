@@ -86,6 +86,7 @@ class Customer
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="user must not be null")
+     * @Groups({"customers_collection_get"})
      */
     private $user;
 

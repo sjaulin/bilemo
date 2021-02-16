@@ -28,6 +28,16 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
+        $admin = new User;
+
+        // Admin user
+        $admin->setEmail('admin@gmail.com')
+            ->setName('admin')
+            ->setPassword($this->encoder->encodePassword($admin, 'password'))
+            ->setRoles(['ROLE_ADMIN']);
+        $om->persist($admin);
+
+        // Users
         for ($c = 0; $c < 5; $c++) {
             $user = new User;
             $user->setName($faker->unique(false, 100000)->firstName() . ' MobileShop');
