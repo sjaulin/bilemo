@@ -17,7 +17,20 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     message="This customer email is already in use on that user."
  * )
  * @Apiresource(
- *   normalizationContext = {"groups" = {"customers_collection_get"}}
+ *   collectionOperations={
+ *     "get"={
+ *       "normalization_context"={
+ *         "groups"={"customers_list"}
+ *       }
+ *     }
+ *   },
+ *   itemOperations={
+ *     "get"={
+ *       "normalization_context"={
+ *         "groups"={"customers_detail"}
+ *       }
+ *     }
+ *   },
  * )
  */
 class Customer
@@ -26,7 +39,7 @@ class Customer
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"customers_collection_get"})
+     * @Groups({"customers_list", "customers_detail"})
      */
     private $id;
 
@@ -36,49 +49,49 @@ class Customer
      * @Assert\Email(
      *     message = "email '{{ value }}' is not a valid email."
      * )
-     * @Groups({"customers_collection_get"})
+     * @Groups({"customers_list", "customers_detail"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="fullname must not be null")
-     * @Groups({"customers_collection_get"})
+     * @Groups({"customers_detail"})
      */
     private $fullname;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="phone must not be null")
-     * @Groups({"customers_collection_get"})
+     * @Groups({"customers_detail"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="text", length=255)
      * @Assert\NotBlank(message="address must not be null")
-     * @Groups({"customers_collection_get"})
+     * @Groups({"customers_detail"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="zipcode must not be null")
-     * @Groups({"customers_collection_get"})
+     * @Groups({"customers_detail"})
      */
     private $zipcode;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="city must not be null")
-     * @Groups({"customers_collection_get"})
+     * @Groups({"customers_detail"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="createdAt must not be null")
-     * @Groups({"customers_collection_get"})
+     * @Groups({"customers_detail"})
      */
     private $createdAt;
 
@@ -86,7 +99,7 @@ class Customer
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="user must not be null")
-     * @Groups({"customers_collection_get"})
+     * @Groups({"customers_list", "customers_detail"})
      */
     private $user;
 

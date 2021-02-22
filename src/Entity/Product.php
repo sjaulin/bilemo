@@ -10,11 +10,24 @@ use App\Repository\ProductRepository; // Avoid class naming error.
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  * @ApiResource(
- *  collectionOperations={"GET"},
- *  itemOperations={"GET"},
- *  normalizationContext={
- *      "groups"={"products_read"}
- *  }
+ *   collectionOperations={
+ *     "get"={
+ *       "normalization_context"={
+ *         "groups"={"products_list"}
+ *       }
+ *     },
+ *     "post"={"security"="is_granted('ROLE_ADMIN')"}
+ *   },
+ *   itemOperations={
+ *     "get"={
+ *       "normalization_context"={
+ *         "groups"={"products_detail"}
+ *       }
+ *     },
+ *     "delete"={"security"="is_granted('ROLE_ADMIN')"},
+ *     "put"={"security"="is_granted('ROLE_ADMIN')"},
+ *     "patch"={"security"="is_granted('ROLE_ADMIN')"}
+ *   },
  * )
  */
 class Product
@@ -23,31 +36,31 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"products_read"})
+     * @Groups({"products_list", "products_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"products_read"})
+     * @Groups({"products_detail"})
      */
     private $brand;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"products_read"})
+     * @Groups({"products_detail"})
      */
     private $model;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"products_read"})
+     * @Groups({"products_detail"})
      */
     private $reference;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"products_read"})
+     * @Groups({"products_detail"})
      */
     private $price;
 
