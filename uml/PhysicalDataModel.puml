@@ -1,0 +1,44 @@
+@startuml PhysicalDataModel
+'see: https://plantuml.com/fr/ie-diagram
+
+title: Modèle physique de données
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "user" {
+  *id: int <<generated>>
+  --
+  *email: varchar
+  *name: varchar
+  *password: password
+  *roles: text
+}
+
+entity "customer" {
+  *id: int <<generated>>
+  --
+  *email: varchar
+  *fullname: varchar
+  *phone: varchar
+  *adress: varchar
+  *zipcode: varchar
+  *city: varchar
+  *created_at: datetime
+}
+
+entity "Product" {
+    *id: int <<generated>>
+    --
+    *brand: varchar
+    *model: varchar
+    *reference: varchar
+    *price: decimal
+}
+
+user ||..o{ customer
+
+@enduml

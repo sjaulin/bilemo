@@ -1,0 +1,35 @@
+@startuml Classes
+'see:https://plantuml.com/fr/class-diagram
+
+title: Diagramme de classe
+
+        class User {
+            {field} email: string
+            {field} fullname: string
+            {field} phone: string
+            {field} address: string
+            {field} zipcode: string
+            {field} city: string
+            {field} createdAt: DateTimeInterface
+        }
+
+        class Customer {
+            {field} email: string
+            {field} fullname: string
+            {field} phone: string
+            {field} adress: string
+            {field} zipcode: string
+            {field} city: string
+            {field} createdAt: DateTimeInterface
+        }
+
+        class Product {
+            {field} brand: string
+            {field} model: string
+            {field} reference: string
+            {field} price: decimal
+        }
+
+        User "1" -- "0..*" Customer
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+title Diagrammes de séquence
+actor User
+participant API
+== Récupérer Token JWT ==
+User -> API : HTTP POST api/login_check
+note left
+body:
+{
+  "username": "xxx",
+  "password": "xxx"
+}
+end note
+alt access ok
+API --> User : return Token
+else
+API --> User : error 401
+end
+== API GET ==
+User -> API : HTTP GET api/xx
+note left
+Headers:
+Authorization: Bearer Token
+end note
+alt token ok
+API --> User : Json Data
+else
+API --> User : error 401
+end
+== API POST ==
+User -> API : HTTP POST api/xx
+note left
+Headers:
+Authorization: Bearer xxxxx
+Body json:
+{
+    "key": "value"
+}
+end note
+alt token ok
+API --> User : Json Data
+else
+API --> User : error 401
+end
+@enduml
