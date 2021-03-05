@@ -1,5 +1,6 @@
 # Bilemo
 
+<a href="https://codeclimate.com/github/sjaulin/bilemo/maintainability"><img src="https://api.codeclimate.com/v1/badges/a79f77d55c8aa844b1f6/maintainability" /></a>
 
 ### Create SSH Keys
 In config/jwt :
@@ -33,5 +34,3 @@ php bin/console doctrine:fixtures:load --env=dev --group=app
 # ./.env
 APP_ENV=prod
 ```
-
-<a href="https://codeclimate.com/github/sjaulin/bilemo/maintainability"><img src="https://api.codeclimate.com/v1/badges/a79f77d55c8aa844b1f6/maintainability" /></a>
