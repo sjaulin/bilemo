@@ -11,7 +11,10 @@
 
 ###> sjaulin/bilemo ###
 /.idea/
+/.vscode/
+.vscode/launch.json
 ###< sjaulin/bilemo ###
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+

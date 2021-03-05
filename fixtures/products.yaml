@@ -1,0 +1,11 @@
+App\Entity\Product:
+  book_{1..100}:
+    brand: <randomElement(['Apple', 'Samsung'])>
+    model: <word()>
+    reference: <word()>
+    price: 18
+  book_200:
+    brand: "Apple"
+    model: "10"
+    reference: "refiphone10"
+    price: 199
