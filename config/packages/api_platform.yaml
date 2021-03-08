@@ -5,6 +5,10 @@ api_platform:
     json: ["application/merge-patch+json"]
   swagger:
     versions: [3]
+    api_keys:
+      apiKey: # Add form input to set bearer Token on Authorize button on Swagger UI
+        name: Authorization
+        type: header
   collection:
     pagination:
       enabled: false
