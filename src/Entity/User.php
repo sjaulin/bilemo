@@ -15,8 +15,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
- *  denormalizationContext={"groups"={"users_post"}},
- *  collectionOperations={"POST"},
+ *   collectionOperations={
+ *     "post"={"security"="is_granted('ROLE_ADMIN')"}
+ *   },
  * )
  * @UniqueEntity("email", message="email is already in use")
  */

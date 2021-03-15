@@ -24,9 +24,6 @@ use App\Repository\ProductRepository; // Avoid class naming error.
  *         "groups"={"products_detail"}
  *       }
  *     },
- *     "delete"={"security"="is_granted('ROLE_ADMIN')"},
- *     "put"={"security"="is_granted('ROLE_ADMIN')"},
- *     "patch"={"security"="is_granted('ROLE_ADMIN')"}
  *   },
  * )
  */

@@ -21,15 +21,21 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     "get"={
  *       "normalization_context"={
  *         "groups"={"customers_list"}
- *       }
- *     }
+ *       },
+ *       "security"="is_granted('ROLE_USER')"
+ *     },
+ *     "post"={"security"="is_granted('ROLE_USER')"}
  *   },
  *   itemOperations={
  *     "get"={
  *       "normalization_context"={
  *         "groups"={"customers_detail"}
- *       }
- *     }
+ *       },
+ *       "security"="is_granted('ROLE_USER')"
+ *     },
+ *     "delete"={"security"="is_granted('ROLE_USER')"},
+ *     "put"={"security"="is_granted('ROLE_USER')"},
+ *     "patch"={"security"="is_granted('ROLE_USER')"}
  *   },
  * )
  */
@@ -99,7 +105,6 @@ class Customer
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="user must not be null")
-     * @Groups({"customers_list", "customers_detail"})
      */
     private $user;
 
