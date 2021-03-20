@@ -1,7 +1,7 @@
 api_platform:
   title: "API BileMo"
   # The description of the API.
-  description: "L'authentification se fait sur api/login_check<br /><br />Informations sur les actions autorisées en fonction des rôles : <br />- Utilisateur anonyme : Peut s'authentifier<br />- Utilisateur simple : Peut consulter les produits, créer / supprimer / modifier un client<br />- Utilisateur Admin : Peut créer des comptes utilisateurs"
+  description: "L'authentification se fait sur api/login_check<br /><br />Informations sur les actions autorisées en fonction des rôles : <br />- Utilisateur anonyme : Peut s'authentifier<br />- Utilisateur authentifié : Peut consulter les produits, créer / supprimer / modifier un client"
 
   mapping:
     paths: ["%kernel.project_dir%/src/Entity"]

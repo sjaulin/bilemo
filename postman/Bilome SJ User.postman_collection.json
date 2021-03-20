@@ -186,7 +186,7 @@
 			"response": []
 		},
 		{
-			"name": "Customers/405",
+			"name": "Customers/406",
 			"event": [
 				{
 					"listen": "test",
@@ -204,7 +204,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://127.0.0.1:8000/api/customers/405",
+					"raw": "https://127.0.0.1:8000/api/customers/406",
 					"protocol": "https",
 					"host": [
 						"127",
@@ -216,7 +216,7 @@
 					"path": [
 						"api",
 						"customers",
-						"405"
+						"406"
 					]
 				}
 			},
@@ -338,97 +338,6 @@
 						"{{customer_last}}"
 					]
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "Users Denied",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 403\", function () {\r",
-							"  pm.response.to.have.status(403);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"totzoht.jaulin@gmail.com\",\r\n  \"password\": \"password\",\r\n  \"name\": \"Stéphane Jaulin\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://127.0.0.1:8000/api/users",
-					"protocol": "https",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "products Denied",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 403\", function () {\r",
-							"  pm.response.to.have.status(403);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n            \"brand\": \"Apple\",\r\n            \"model\": \"iss 10\",\r\n            \"reference\": \"frff\",\r\n            \"price\": 357.3\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://127.0.0.1:8000/api/products",
-					"protocol": "https",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"products"
-					]
-				},
-				"description": "Tester le login avec JWT"
 			},
 			"response": []
 		}

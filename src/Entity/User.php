@@ -14,11 +14,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource(
- *   collectionOperations={
- *     "post"={"security"="is_granted('ROLE_ADMIN')"}
- *   },
- * )
  * @UniqueEntity("email", message="email is already in use")
  */
 class User implements UserInterface

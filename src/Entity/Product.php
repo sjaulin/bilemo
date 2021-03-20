@@ -15,8 +15,7 @@ use App\Repository\ProductRepository; // Avoid class naming error.
  *       "normalization_context"={
  *         "groups"={"products_list"}
  *       }
- *     },
- *     "post"={"security"="is_granted('ROLE_ADMIN')"}
+ *     }
  *   },
  *   itemOperations={
  *     "get"={
