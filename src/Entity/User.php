@@ -14,6 +14,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ApiResource(
+ * itemOperations={
+ *     "get"={
+ *       "normalization_context"={
+ *         "groups"={"users_detail"}
+ *       }
+ *     },
+ *   },
+ * )
  * @UniqueEntity("email", message="email is already in use")
  */
 class User implements UserInterface
@@ -28,7 +37,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank(message="email must not be null")
-     * @Groups({"users_post"})
      */
     private $email;
 
@@ -41,7 +49,6 @@ class User implements UserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank(message="password must not be null")
-     * @Groups({"users_post"})
      */
     private $password;
 
@@ -53,7 +60,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="name must not be null")
-     * @Groups({"users_post"})
      */
     private $name;
 
